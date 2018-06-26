@@ -1,0 +1,27 @@
+﻿@model App.Models.Organization
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit organization</h2>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Title <br />
+        @Html.EditorFor(model => model.Title)
+    </p>
+
+    <p>
+        <input type="submit" value="Save" />
+    </p>
+
+}
+
+<div>
+    @Html.ActionLink("Back", "Index")
+</div>
+
+
+

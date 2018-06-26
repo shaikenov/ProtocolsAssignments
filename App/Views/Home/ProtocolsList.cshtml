@@ -1,0 +1,59 @@
+﻿@model IEnumerable<App.Models.Protocol>
+
+@{
+    ViewBag.Title = "ProtocolsList";
+}
+
+<h2>ProtocolsList</h2>
+
+<p>
+    @Html.ActionLink("Create Protocol", "CreateProtocol")
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Organization)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateOfSubmission)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Responsible)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProtID)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Organization.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfSubmission)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Responsible.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProtID)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditProtocol", new { id = item.Id }) |
+                @Html.ActionLink("Details", "DetailsProtocol", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "DeleteProtocol", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,27 @@
+﻿@model App.Models.Responsible
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Add Responsible person</h2>
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@using (Html.BeginForm())
+{
+    <p>
+        Title <br />
+        @Html.EditorFor(model => model.Name)
+    </p>
+    <p>
+        <input type="submit" value="Save" />
+    </p>
+
+}
+
+<div>
+    @Html.ActionLink("Back", "Index")
+</div>

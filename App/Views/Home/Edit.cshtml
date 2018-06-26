@@ -1,0 +1,42 @@
+﻿@model App.Models.Assignment
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    <h4>Protocol</h4>
+    @Html.HiddenFor(model=>model.Id)
+    <p>
+        Title <br />
+        @Html.EditorFor(model => model.Title)
+    </p>
+
+    <p>
+        Responsible <br />
+        @Html.DropDownListFor(model => model.ResponsibleID, ViewBag.Responsibles as SelectList)
+    </p>
+
+    <p>
+        Deadline <br />
+        @Html.EditorFor(model => model.Deadline)
+    </p>
+
+    <p>
+        Protocol <br />
+        @Html.DropDownListFor(model => model.ProtocolId, ViewBag.Protocols as SelectList)
+    </p>
+    <p>
+        <input type="submit" value="Save" />
+    </p>
+
+}
+
+<div>
+    @Html.ActionLink("Back", "AssignmentsList")
+</div>
+
+
