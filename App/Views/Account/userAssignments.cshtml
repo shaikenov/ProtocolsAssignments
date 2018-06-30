@@ -1,0 +1,51 @@
+﻿@model IEnumerable<App.Models.Assignment>
+
+@{
+    ViewBag.Title = "userAssignments";
+}
+
+<h2>userAssignments</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Responsible)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Deadline)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Protocol.ProtID)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        if (Session["Username"].ToString() == item.Responsible.Name)
+        {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Responsible.Name)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Deadline)
+        </td>
+        <th>
+            @Html.DisplayFor(modelItem => item.ProtocolId)
+        </th>
+
+    </tr>
+        }
+    }
+
+</table>
+
+

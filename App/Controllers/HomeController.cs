@@ -187,7 +187,7 @@ namespace App.Controllers
             if (protocol != null)
             {
                 ViewBag.necessaryProtocol = protocol.ProtID;
-                var assignments = db.Assignments.Include(p => p.Protocol);
+                var assignments = db.Assignments.Include(p => p.Protocol).Include(p => p.Responsible);
                 return View(assignments.ToList());
             }
             return RedirectToAction("ProtocolsList");

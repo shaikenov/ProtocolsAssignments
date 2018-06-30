@@ -154,6 +154,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\ResponsibleController.cs" />
@@ -165,6 +166,7 @@
     <Compile Include="Models\Organization.cs" />
     <Compile Include="Models\Protocol.cs" />
     <Compile Include="Models\Responsible.cs" />
+    <Compile Include="Models\UserAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -227,6 +229,15 @@
     <Content Include="Views\Responsible\Index.cshtml" />
     <Content Include="Views\Responsible\Create.cshtml" />
     <Content Include="Views\Responsible\Edit.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\LoggedIn.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Shared\myLayout.cshtml" />
+    <Content Include="Views\Account\_ViewStart.cshtml" />
+    <Content Include="Views\Account\userProtocols.cshtml" />
+    <Content Include="Views\Account\userAssignments.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

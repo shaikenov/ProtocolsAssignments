@@ -1,0 +1,61 @@
+﻿@model IEnumerable<App.Models.Protocol>
+
+@{
+    ViewBag.Title = "LoggedIn";
+}
+
+@if (Session["UserID"] != null)
+{
+    <h4>Hello @Session["Username"].ToString()</h4>
+
+    <h2>userProtocols</h2>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProtID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Organization)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Responsible.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfSubmission)
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            if (Session["Username"].ToString() == item.Responsible.Name)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProtID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Organization.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Responsible.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateOfSubmission)
+                    </td>
+                </tr>
+            }
+
+        }
+
+    </table>
+}
+

@@ -12,6 +12,7 @@ namespace App.Models
         public DbSet<Protocol> Protocols { get; set; }
         public DbSet<Responsible> Responsibles { get; set; }
         public DbSet<Organization> Organizations { get; set; }
+        public DbSet<UserAccount> UserAccounts { get; set; }
 
     }
 }

@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "DetailsProtocol";
+    int i = 0;
 }
 
 <h2>Details @ViewBag.necessaryProtocol</h2>
@@ -9,6 +10,7 @@
 
 <table class="table">
     <tr>
+        <th>Id</th>
         <th>
             @Html.DisplayNameFor(model => model.Title)
         </th>
@@ -29,12 +31,14 @@
 
         if (ViewBag.necessaryProtocol == item.Protocol.ProtID)
         {
+            i++;
         <tr>
+            <td>@i </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Responsible)
+                @Html.DisplayFor(modelItem => item.Responsible.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Deadline)
