@@ -83,7 +83,7 @@ namespace App.Controllers
         }
 
         public ActionResult userAssignments()
-        {
+        { 
             if (Session["UserID"] != null)
             {
                 AppContext db = new AppContext();
