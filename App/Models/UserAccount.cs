@@ -40,5 +40,15 @@ namespace App.Models
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
 
+        public int RoleId { get; set; }
+        public Role Role { get; set; }
+
     }
+
+    public class Role
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+
 }

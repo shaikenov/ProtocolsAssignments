@@ -5,7 +5,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
-using App.Controllers;
 
 namespace App.Controllers
 {
@@ -25,9 +24,10 @@ namespace App.Controllers
             }
         }
 
+        [Authorize(Roles ="admin")]
         public ActionResult AssignmentsList()
         {
-            if (Session["UserID"] != null && Session["Username"].ToString()=="admin")
+            if (Session["Account.UserID"] != null)
             {
                 var assignments = db.Assignments.Include(p => p.Protocol).Include(p => p.Responsible);
                 return View(assignments.ToList());
@@ -38,9 +38,10 @@ namespace App.Controllers
             }
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult ProtocolsList()
         {
-            if (Session["UserID"] != null && Session["Username"].ToString() == "admin")
+            if (Session["UserID"] != null)
             {
                 var protocols = db.Protocols.Include(p => p.Responsible).Include(p => p.Organization);
                 return View(protocols.ToList());
@@ -51,8 +52,8 @@ namespace App.Controllers
             }
         }
 
-        
 
+        [Authorize(Roles = "admin")]
         public ActionResult ResponsiblesList()
         {
             if (Session["UserID"] != null && Session["Username"].ToString() == "admin")
@@ -67,7 +68,7 @@ namespace App.Controllers
         }
     
         [HttpGet]
-
+        [Authorize(Roles = "admin")]
         public ActionResult Create()
         {
             if (Session["UserID"] != null && Session["Username"].ToString() == "admin")
@@ -85,25 +86,18 @@ namespace App.Controllers
                 
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
 
         public ActionResult Create(Assignment assignment)
         {
-            
-            
                 db.Assignments.Add(assignment);
                 db.SaveChanges();
-
                 return RedirectToAction("AssignmentsList");
-            
-
-            
-                
-
         }
-
+        
         [HttpGet]
-
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(int? id)
         {
             if (Session["UserID"] != null && Session["Username"].ToString() == "admin")
@@ -130,8 +124,9 @@ namespace App.Controllers
                 return RedirectToAction("Login", "Account");
             }
         }
-
+        
         [HttpPost]
+        [Authorize(Roles = "admin")]
 
         public ActionResult Edit(Assignment assignment)
         {
@@ -141,6 +136,7 @@ namespace App.Controllers
 
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -157,9 +153,9 @@ namespace App.Controllers
             return RedirectToAction("AssignmentsList");
         }
 
-
+       
         [HttpGet]
-
+        [Authorize(Roles = "admin")]
         public ActionResult CreateProtocol()
 
         {
@@ -177,9 +173,9 @@ namespace App.Controllers
                 return RedirectToAction("Login", "Account");
             }
         }
-
+        
         [HttpPost]
-
+        [Authorize(Roles = "admin")]
         public ActionResult CreateProtocol(Protocol protocol)
         {
             db.Protocols.Add(protocol);
@@ -188,8 +184,9 @@ namespace App.Controllers
             return RedirectToAction("ProtocolsList");
 
         }
-
+        
         [HttpGet]
+        [Authorize(Roles = "admin")]
 
         public ActionResult EditProtocol(int? id)
         {
@@ -217,9 +214,9 @@ namespace App.Controllers
             }
                 
         }
-
+        
         [HttpPost]
-
+        [Authorize(Roles = "admin")]
         public ActionResult EditProtocol(Protocol protocol)
         {
             db.Entry(protocol).State = EntityState.Modified;
@@ -227,6 +224,7 @@ namespace App.Controllers
             return RedirectToAction("ProtocolsList");
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteProtocol(int? id)
         {
             if (id == null)
@@ -244,6 +242,7 @@ namespace App.Controllers
             return RedirectToAction("ProtocolsList");
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult DetailsProtocol(int? id)
         {
             if (Session["UserID"] != null && Session["Username"].ToString() == "admin")
@@ -269,6 +268,7 @@ namespace App.Controllers
                
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -276,6 +276,7 @@ namespace App.Controllers
             return View();
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

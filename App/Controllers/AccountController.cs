@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using App.Models;
 using System.Data.Entity;
+using System.Web.Security;
+using App.Controllers;
 
 namespace App.Controllers
 {
@@ -26,20 +28,47 @@ namespace App.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(UserAccount account)
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(UserAccount model)
         {
             if (ModelState.IsValid)
             {
+                UserAccount user = null;
                 using (AppContext db = new AppContext())
                 {
-                    db.UserAccounts.Add(account);
-                    db.SaveChanges();
+                    user = db.UserAccounts.FirstOrDefault(u => u.Username == model.Username);
                 }
-                ModelState.Clear();
-                ViewBag.Message = account.FirstName + " " + account.LastName + " successsfully registered";
-                
+                if (user == null)
+                {
+                    using (AppContext db = new AppContext())
+                    {
+                        db.UserAccounts.Add(new UserAccount
+                        {
+                            FirstName = model.FirstName,
+                            LastName = model.LastName,
+                            Email = model.Email,
+                            Username = model.Username,
+                            Password = model.Password,
+                            ConfirmPassword = model.ConfirmPassword,
+                            RoleId = 2
+                        });
+                        db.SaveChanges();
+
+                        user = db.UserAccounts.Where(u => u.Username == model.Username &&
+                        u.Password == model.Password).FirstOrDefault();
+                    }
+                    if (user != null)
+                    {
+                        FormsAuthentication.SetAuthCookie(model.Username, true);
+                        return RedirectToAction("Login");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Пользователь с таким логином уже существует");
+                }
             }
-            return View();
+            return View(model);
         }
 
         [HttpGet]
@@ -49,37 +78,39 @@ namespace App.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(UserAccount user)
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(LoginModel model)
         {
-            using (AppContext db = new AppContext())
+            if (ModelState.IsValid)
             {
-                var usr = db.UserAccounts.Single(u => u.Username == user.Username && u.Password == user.Password);
-                if (usr != null)
+                using (AppContext db = new AppContext())
                 {
-                    Session["UserID"] = usr.UserID.ToString();
-                    Session["Username"] = usr.Username.ToString();
-                    return RedirectToAction("LoggedIn");
+                    var usr = db.UserAccounts.FirstOrDefault(u => u.Username == model.Username && u.Password == model.Password);
+                    if (usr != null)
+                    {
+                        Session["UserID"] = usr.UserID.ToString();
+                        Session["Username"] = usr.Username.ToString();
+                        FormsAuthentication.SetAuthCookie(usr.Username, true);
+                        return RedirectToAction("LoggedIn");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Username or password is wrong.");
+                    }
                 }
-                else
-                {
-                    ModelState.AddModelError("", "Username or password is wrong.");
-                }
+                return View();
             }
-            return View();
+            return View(model);
+
         }
 
+       
         public ActionResult LoggedIn()
         {
-            if (Session["UserID"] != null)
-            {
                 AppContext db = new AppContext();
                 var protocols = db.Protocols.Include(p=>p.Responsible).Include(p => p.Organization);
                 return View(protocols.ToList());
-            }
-            else
-            {
-                return RedirectToAction("Login");
-            }
+            
         }
 
         public ActionResult userAssignments()
@@ -96,6 +127,19 @@ namespace App.Controllers
             }
         }
 
+        public ActionResult userProtocols()
+        {
+            if (Session["UserID"] != null)
+            {
+                AppContext db = new AppContext();
+                var protocols = db.Protocols.Include(p => p.Organization).Include(p => p.Responsible);
+                return View(protocols.ToList());
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
+        }
 
     }
 
