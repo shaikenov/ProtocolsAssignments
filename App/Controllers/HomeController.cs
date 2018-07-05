@@ -12,6 +12,7 @@ namespace App.Controllers
     {
         AppContext db = new AppContext();
 
+        [Authorize(Roles ="admin")]
         public ActionResult Index()
         {
             if (Session["UserID"] != null)
@@ -27,7 +28,7 @@ namespace App.Controllers
         [Authorize(Roles ="admin")]
         public ActionResult AssignmentsList()
         {
-            if (Session["Account.UserID"] != null)
+            if (Session["UserID"] != null)
             {
                 var assignments = db.Assignments.Include(p => p.Protocol).Include(p => p.Responsible);
                 return View(assignments.ToList());
@@ -53,25 +54,13 @@ namespace App.Controllers
         }
 
 
-        [Authorize(Roles = "admin")]
-        public ActionResult ResponsiblesList()
-        {
-            if (Session["UserID"] != null && Session["Username"].ToString() == "admin")
-            {
-                var responsibles = db.Responsibles;
-                return View(responsibles.ToList());
-            }
-            else
-            {
-                return RedirectToAction("Login", "Account");
-            }
-        }
-    
+       
+        
         [HttpGet]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles="admin")]
         public ActionResult Create()
         {
-            if (Session["UserID"] != null && Session["Username"].ToString() == "admin")
+            if (Session["UserID"] != null )
             {
                 SelectList protocols = new SelectList(db.Protocols, "Id", "Title");
                 SelectList responsibles = new SelectList(db.Responsibles, "Id", "Name");
@@ -86,7 +75,6 @@ namespace App.Controllers
                 
         }
 
-        [Authorize(Roles = "admin")]
         [HttpPost]
 
         public ActionResult Create(Assignment assignment)
@@ -100,7 +88,7 @@ namespace App.Controllers
         [Authorize(Roles = "admin")]
         public ActionResult Edit(int? id)
         {
-            if (Session["UserID"] != null && Session["Username"].ToString() == "admin")
+            if (Session["UserID"] != null)
             {
                 if (id == null)
                 {
@@ -126,7 +114,7 @@ namespace App.Controllers
         }
         
         [HttpPost]
-        [Authorize(Roles = "admin")]
+       
 
         public ActionResult Edit(Assignment assignment)
         {
@@ -153,13 +141,12 @@ namespace App.Controllers
             return RedirectToAction("AssignmentsList");
         }
 
-       
         [HttpGet]
         [Authorize(Roles = "admin")]
         public ActionResult CreateProtocol()
 
         {
-            if (Session["UserID"] != null && Session["Username"].ToString() == "admin")
+            if (Session["UserID"] != null)
             {
                 SelectList organizations = new SelectList(db.Organizations, "Id", "Title");
                 SelectList responsibles = new SelectList(db.Responsibles, "Id", "Name");
@@ -175,7 +162,7 @@ namespace App.Controllers
         }
         
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        
         public ActionResult CreateProtocol(Protocol protocol)
         {
             db.Protocols.Add(protocol);
@@ -184,13 +171,13 @@ namespace App.Controllers
             return RedirectToAction("ProtocolsList");
 
         }
-        
+
         [HttpGet]
         [Authorize(Roles = "admin")]
 
         public ActionResult EditProtocol(int? id)
         {
-            if (Session["UserID"] != null && Session["Username"].ToString() == "admin")
+            if (Session["UserID"] != null )
             {
                 if (id == null)
             {
@@ -216,7 +203,7 @@ namespace App.Controllers
         }
         
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        
         public ActionResult EditProtocol(Protocol protocol)
         {
             db.Entry(protocol).State = EntityState.Modified;
@@ -245,7 +232,7 @@ namespace App.Controllers
         [Authorize(Roles = "admin")]
         public ActionResult DetailsProtocol(int? id)
         {
-            if (Session["UserID"] != null && Session["Username"].ToString() == "admin")
+            if (Session["UserID"] != null)
             {
              if (id == null)
             {

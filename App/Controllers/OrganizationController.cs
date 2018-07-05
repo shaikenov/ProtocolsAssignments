@@ -13,6 +13,8 @@ namespace App.Controllers
         // GET: Organization
         AppContext db = new AppContext();
 
+
+        [Authorize(Roles ="admin")]
         public ActionResult Index()
         {
                 var organizations = db.Organizations;
@@ -21,6 +23,7 @@ namespace App.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
 
         public ActionResult Create()
         {
@@ -40,6 +43,7 @@ namespace App.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
 
         public ActionResult Edit(int? id)
         {
@@ -66,6 +70,7 @@ namespace App.Controllers
 
         }
 
+        [Authorize(Roles ="admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)

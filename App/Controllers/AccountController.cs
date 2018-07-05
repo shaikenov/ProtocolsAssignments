@@ -13,6 +13,7 @@ namespace App.Controllers
     public class AccountController : Controller
     {
         // GET: Account
+        [Authorize]
         public ActionResult Index()
         {
             using (AppContext db = new AppContext())
@@ -104,7 +105,7 @@ namespace App.Controllers
 
         }
 
-       
+        [Authorize]
         public ActionResult LoggedIn()
         {
                 AppContext db = new AppContext();
@@ -113,6 +114,7 @@ namespace App.Controllers
             
         }
 
+        [Authorize]
         public ActionResult userAssignments()
         { 
             if (Session["UserID"] != null)
@@ -127,6 +129,7 @@ namespace App.Controllers
             }
         }
 
+        [Authorize]
         public ActionResult userProtocols()
         {
             if (Session["UserID"] != null)

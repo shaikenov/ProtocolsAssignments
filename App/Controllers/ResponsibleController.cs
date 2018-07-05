@@ -13,14 +13,16 @@ namespace App.Controllers
 
         AppContext db = new AppContext();
 
+        
+        [Authorize(Roles = "admin")]
         public ActionResult Index()
         {
             var responsibles = db.Responsibles;
             return View(responsibles.ToList());
         }
 
-
         [HttpGet]
+        [Authorize(Roles = "admin")]
 
         public ActionResult Create()
         {
@@ -40,6 +42,7 @@ namespace App.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
 
         public ActionResult Edit(int? id)
         {
@@ -66,6 +69,8 @@ namespace App.Controllers
             return RedirectToAction("Index");
         }
 
+
+        [Authorize(Roles ="admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
