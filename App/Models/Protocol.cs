@@ -22,10 +22,12 @@ namespace App.Models
         public int? OrganizationID { get; set; }
         public Organization Organization { get; set; }
 
+        public virtual ICollection<Responsible> Responsibles { get; set; }
 
         public Protocol()
         {
             Assignments = new List<Assignment>();
+            Responsibles = new List<Responsible>();
         }
     }
 

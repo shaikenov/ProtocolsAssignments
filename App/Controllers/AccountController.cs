@@ -108,10 +108,16 @@ namespace App.Controllers
         [Authorize]
         public ActionResult LoggedIn()
         {
+            if (Session["UserID"] != null)
+            {
                 AppContext db = new AppContext();
-                var protocols = db.Protocols.Include(p=>p.Responsible).Include(p => p.Organization);
+                var protocols = db.Protocols.Include(p => p.Responsible).Include(p => p.Organization);
                 return View(protocols.ToList());
-            
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
         }
 
         [Authorize]
@@ -146,6 +152,4 @@ namespace App.Controllers
 
     }
 
-
-        
-    }
+}

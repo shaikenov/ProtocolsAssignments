@@ -16,5 +16,11 @@ namespace App.Models
 
         public int? ResponsibleID { get; set; }
         public Responsible Responsible { get; set; }
+
+        public virtual ICollection<Responsible> Responsibles { get; set; }
+        public Assignment()
+        {
+            Responsibles = new List<Responsible>();
+        }
     }
     }
