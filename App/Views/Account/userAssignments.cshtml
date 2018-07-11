@@ -11,9 +11,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Title)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Responsible)
-        </th>
+        
         <th>
             @Html.DisplayNameFor(model => model.Deadline)
         </th>
@@ -23,7 +21,7 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @*@foreach (var item in Model)
     {
         if (Session["Username"].ToString() == item.Responsible.Name)
         {
@@ -31,9 +29,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.Title)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Responsible.Name)
-        </td>
+       
 
         <td>
             @Html.DisplayFor(modelItem => item.Deadline)
@@ -44,7 +40,7 @@
 
     </tr>
         }
-    }
+    }*@
 
 </table>
 

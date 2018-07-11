@@ -14,8 +14,6 @@ namespace App.Models
         public int? ProtocolId { get; set; }
         public Protocol Protocol { get; set; }
 
-        public int? ResponsibleID { get; set; }
-        public Responsible Responsible { get; set; }
 
         public virtual ICollection<Responsible> Responsibles { get; set; }
         public Assignment()

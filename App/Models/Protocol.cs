@@ -16,9 +16,6 @@ namespace App.Models
 
         public ICollection<Assignment> Assignments { get; set; }
 
-        public int? ResponsibleID { get; set; }
-        public Responsible Responsible { get; set; }
-
         public int? OrganizationID { get; set; }
         public Organization Organization { get; set; }
 

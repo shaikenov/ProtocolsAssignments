@@ -111,8 +111,8 @@ namespace App.Controllers
             if (Session["UserID"] != null)
             {
                 AppContext db = new AppContext();
-                var protocols = db.Protocols.Include(p => p.Responsible).Include(p => p.Organization);
-                return View(protocols.ToList());
+                var protocols = db.Protocols.Include(p => p.Organization);
+                return View();
             }
             else
             {
@@ -126,7 +126,7 @@ namespace App.Controllers
             if (Session["UserID"] != null)
             {
                 AppContext db = new AppContext();
-                var assignments = db.Assignments.Include(p => p.Protocol).Include(p => p.Responsible);
+                var assignments = db.Assignments.Include(p => p.Protocol);
                 return View(assignments.ToList());
             }
             else
@@ -141,7 +141,7 @@ namespace App.Controllers
             if (Session["UserID"] != null)
             {
                 AppContext db = new AppContext();
-                var protocols = db.Protocols.Include(p => p.Organization).Include(p => p.Responsible);
+                var protocols = db.Protocols.Include(p => p.Organization);
                 return View(protocols.ToList());
             }
             else

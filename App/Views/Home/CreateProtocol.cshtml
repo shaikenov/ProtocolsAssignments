@@ -30,7 +30,10 @@
 
     <p>
         Responsible <br />
-        @Html.DropDownListFor(model => model.ResponsibleID, ViewBag.Responsibles as SelectList)
+        @foreach (var r in ViewBag.Responsibles)
+        {
+            <input type="checkbox" name="selectedResponsibles" value="@r.Id" />@r.Name <br />
+        }
     </p>
 
     <p>
