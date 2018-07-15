@@ -19,12 +19,12 @@ namespace App.Models
         public int? OrganizationID { get; set; }
         public Organization Organization { get; set; }
 
-        public virtual ICollection<Responsible> Responsibles { get; set; }
+        public virtual ICollection<UserAccount> UserAccounts { get; set; }
 
         public Protocol()
         {
             Assignments = new List<Assignment>();
-            Responsibles = new List<Responsible>();
+            UserAccounts = new List<UserAccount>();
         }
     }
 

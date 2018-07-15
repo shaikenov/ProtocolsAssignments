@@ -15,10 +15,10 @@ namespace App.Models
         public Protocol Protocol { get; set; }
 
 
-        public virtual ICollection<Responsible> Responsibles { get; set; }
+        public virtual ICollection<UserAccount> UserAccounts { get; set; }
         public Assignment()
         {
-            Responsibles = new List<Responsible>();
+            UserAccounts = new List<UserAccount>();
         }
     }
     }

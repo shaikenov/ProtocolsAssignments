@@ -6,7 +6,13 @@
 }
 
 <h2>Details @ViewBag.necessaryProtocol</h2>
-
+<div class="display-label"><b> Ответственные </b></div>
+<ul>
+    @foreach (var r in ViewBag.Users)
+    {
+    <li>@r.FirstName @r.LastName @r.Username @r.Email </li>
+    }
+</ul>
 
 <table class="table">
     <tr>
@@ -14,9 +20,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Title)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Responsible)
-        </th>
+        
         <th>
             @Html.DisplayNameFor(model => model.Deadline)
         </th>
@@ -29,24 +33,22 @@
     @foreach (var item in Model)
     {
 
-        if (ViewBag.necessaryProtocol == item.Protocol.ProtID)
+        if (ViewBag.protocolid == item.Protocol.ProtID)
         {
             i++;
-        <tr>
-            <td>@i </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Responsible.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Deadline)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Protocol.ProtID)
-            </td>
-        </tr>
+            <tr>
+                <td>@i </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.Deadline)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Protocol.ProtID)
+                </td>
+            </tr>
         }
     }
 

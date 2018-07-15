@@ -1,0 +1,55 @@
+﻿@model App.Models.UserAccount
+
+@{
+    ViewBag.Title = "EditInfo";
+}
+
+<h2>EditInfo</h2>
+
+@using (Html.BeginForm())
+{
+
+    <p>
+        <br />
+        @Html.HiddenFor(model => model.UserID)
+    </p>
+
+    <p>
+        <br />
+        @Html.HiddenFor(model => model.RoleId)
+    </p>
+
+    <p>
+        Имя <br />
+        @Html.EditorFor(model => model.FirstName)
+    </p>
+    <p>
+        Фамилия <br />
+        @Html.EditorFor(model => model.LastName)
+    </p>
+    <p>
+        Почтовый ящик <br />
+        @Html.EditorFor(model => model.Email)
+    </p>
+    <p>
+        Имя пользователя <br />
+        @Html.EditorFor(model => model.Username)
+    </p>
+    <p>
+        Пароль <br />
+        @Html.EditorFor(model => model.Password)
+    </p>
+    <p>
+        Подтвердите свой пароль <br />
+        @Html.EditorFor(model => model.ConfirmPassword)
+    </p>
+
+    <p>
+        <input type="submit" value="Save" />
+    </p>
+
+}
+
+<div>
+    @Html.ActionLink("Back", "LoggedIn")
+</div>

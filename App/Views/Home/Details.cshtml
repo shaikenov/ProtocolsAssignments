@@ -1,0 +1,29 @@
+﻿@model App.Models.Assignment
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div class="display-label"><b> Название поручения </b></div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Title)
+</div>
+
+<div class="display-label"><b> Дедлайн </b></div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.Deadline)
+</div>
+
+<div class="display-label"><b> Протокол </b></div>
+<div class="display-field">
+    @Html.DisplayFor(model => model.ProtocolId)
+</div>
+
+<div class="display-label"><b> Ответсвенные </b></div>
+<ul>
+    @foreach (var r in ViewBag.Users)
+    {
+        <li>@r.FirstName @r.LastName @r.Username @r.Email </li>
+    }
+</ul>

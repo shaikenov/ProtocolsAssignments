@@ -208,3 +208,7 @@ C:\Users\solka\ProtocolsAssignments\App\obj\Debug\App.dll
 C:\Users\solka\ProtocolsAssignments\App\obj\Debug\App.pdb
 C:\Users\solka\ProtocolsAssignments\App\bin\System.Web.Providers.dll
 C:\Users\solka\ProtocolsAssignments\App\bin\System.Web.Providers.xml
+C:\Users\solka\ProtocolsAssignments\App\bin\Microsoft.AspNet.Identity.Core.dll
+C:\Users\solka\ProtocolsAssignments\App\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\solka\ProtocolsAssignments\App\bin\Microsoft.AspNet.Identity.Core.xml
+C:\Users\solka\ProtocolsAssignments\App\bin\Microsoft.AspNet.Identity.EntityFramework.xml

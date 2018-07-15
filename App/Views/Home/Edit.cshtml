@@ -17,11 +17,11 @@
 
     <p>
         Responsible <br />
-        @foreach(var r in ViewBag.Responsibles)
+        @foreach (var r in ViewBag.Users)
         {
-            <input type="checkbox" name="selectedResponsibles" value="@r.Id"
-                   @(Model.Responsibles.Contains(r) ? "checked=\"checked\"": "")/>@r.Name <br />
-        }
+            <input type="checkbox" name="selectedResponsibles" value="@r.UserID"
+                   @(Model.UserAccounts.Contains(r) ? "checked=\"checked\"" : "") />@r.FirstName @r.LastName <br />
+            }
     </p>
 
     <p>

@@ -10,7 +10,6 @@ namespace App.Models
     {
         public DbSet<Assignment> Assignments { get; set; }
         public DbSet<Protocol> Protocols { get; set; }
-        public DbSet<Responsible> Responsibles { get; set; }
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<UserAccount> UserAccounts { get; set; }
         public DbSet<Role> Roles { get; set; }

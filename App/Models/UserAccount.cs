@@ -43,6 +43,15 @@ namespace App.Models
         public int RoleId { get; set; }
         public Role Role { get; set; }
 
+        public virtual ICollection<Protocol> Protocols { get; set; }
+        public virtual ICollection<Assignment> Assignments { get; set; }
+
+        public UserAccount()
+        {
+            Protocols = new List<Protocol>();
+            Assignments = new List<Assignment>();
+        }
+
     }
 
     public class Role

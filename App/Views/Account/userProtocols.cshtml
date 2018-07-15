@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<App.Models.Protocol>
+    @using App.Models
+
 
 @{
     ViewBag.Title = "LoggedIn";
@@ -28,9 +30,9 @@
             <th></th>
         </tr>
 
-        @*@foreach (var item in Model)
+        @foreach (var item in Model)
         {
-            if (Session["Username"].ToString() == item.Responsible.Name)
+            if (item.UserAccounts.Contains(ViewBag.usr))
             {
                 <tr>
                     <td>
@@ -49,7 +51,7 @@
                 </tr>
             }
 
-        }*@
+        }
 
     </table>
 }

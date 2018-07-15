@@ -11,19 +11,21 @@
         <th>
             @Html.DisplayNameFor(model => model.Title)
         </th>
-        
+
         <th>
             @Html.DisplayNameFor(model => model.Deadline)
         </th>
+
         <th>
-            @Html.DisplayNameFor(model => model.Protocol.ProtID)
+            @Html.DisplayNameFor(model => model.ProtocolId)
         </th>
+       
         <th></th>
     </tr>
 
-    @*@foreach (var item in Model)
+    @foreach (var item in Model)
     {
-        if (Session["Username"].ToString() == item.Responsible.Name)
+        if (item.UserAccounts.Contains(ViewBag.usr))
         {
     <tr>
         <td>
@@ -35,12 +37,12 @@
             @Html.DisplayFor(modelItem => item.Deadline)
         </td>
         <th>
-            @Html.DisplayFor(modelItem => item.ProtocolId)
+            @Html.DisplayFor(modelItem => item.Protocol.ProtID)
         </th>
 
     </tr>
         }
-    }*@
+    }
 
 </table>
 

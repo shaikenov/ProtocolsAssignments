@@ -12,31 +12,28 @@ namespace App.Controllers
     {
         AppContext db = new AppContext();
 
-        [Authorize(Roles ="admin")]
+        [Authorize(Roles = "admin")]
         public ActionResult Index()
         {
             if (Session["UserID"] != null)
             {
                 return View();
             }
-                else
+            else
             {
                 return RedirectToAction("Login", "Account");
             }
         }
 
-        [Authorize(Roles ="admin")]
+        [Authorize(Roles = "admin")]
         public ActionResult AssignmentsList()
         {
-            if (Session["UserID"] != null)
-            {
+           
                 var assignments = db.Assignments.Include(p => p.Protocol);
+
                 return View(assignments.ToList());
-            }
-            else
-            {
-                return RedirectToAction("Login", "Account");
-            }
+            
+           
         }
 
         [Authorize(Roles = "admin")]
@@ -54,75 +51,74 @@ namespace App.Controllers
         }
 
 
-       
-        
+
+
         [HttpGet]
-        [Authorize(Roles="admin")]
+        [Authorize(Roles = "admin")]
         public ActionResult Create()
         {
-          
-                SelectList protocols = new SelectList(db.Protocols, "Id", "Title");
-                ViewBag.Protocols = protocols;
-                ViewBag.Responsibles = db.Responsibles.ToList();
-                return View();
-            
-                
+
+            SelectList protocols = new SelectList(db.Protocols, "Id", "Title");
+            ViewBag.Protocols = protocols;
+            ViewBag.Users = db.UserAccounts.ToList();
+            return View();
+
+
         }
 
         [HttpPost]
 
         public ActionResult Create(Assignment assignment, int[] selectedResponsibles)
         {
-                if (selectedResponsibles != null)
+            if (selectedResponsibles != null)
             {
-                foreach (var r in db.Responsibles.Where(re=> selectedResponsibles.Contains(re.Id)))
+                foreach (var r in db.UserAccounts.Where(re => selectedResponsibles.Contains(re.UserID)))
                 {
-                    assignment.Responsibles.Add(r);
+                    assignment.UserAccounts.Add(r);
                 }
-                
+
             }
             db.Assignments.Add(assignment);
             db.SaveChanges();
             return RedirectToAction("AssignmentsList");
         }
-        
+
         [HttpGet]
         [Authorize(Roles = "admin")]
         public ActionResult Edit(int? id)
         {
-            
-                if (id == null)
-                {
-                    return HttpNotFound();
-                }
 
-                Assignment assignment = db.Assignments.Find(id);
-                if (assignment != null)
-                {
-                    SelectList protocols = new SelectList(db.Protocols, "Id", "Title", assignment.ProtocolId);
-                    //SelectList responsibles = new SelectList(db.Responsibles, "Id", "Name");
-                    ViewBag.Protocols = protocols;
-                    ViewBag.Responsibles = db.Responsibles.ToList();
-                    return View(assignment);
-                }
-            return RedirectToAction("AssignmentsList");
+            if (id == null)
+            {
+                return HttpNotFound();
             }
- 
-        
-        [HttpPost]      
+
+            Assignment assignment = db.Assignments.Find(id);
+            if (assignment != null)
+            {
+                SelectList protocols = new SelectList(db.Protocols, "Id", "Title", assignment.ProtocolId);
+                ViewBag.Protocols = protocols;
+                ViewBag.Users = db.UserAccounts.ToList();
+                return View(assignment);
+            }
+            return RedirectToAction("AssignmentsList");
+        }
+
+
+        [HttpPost]
         public ActionResult Edit(Assignment assignment, int[] selectedResponsibles)
         {
             Assignment newAssignment = db.Assignments.Find(assignment.Id);
             newAssignment.Title = assignment.Title;
             newAssignment.Deadline = assignment.Deadline;
             newAssignment.ProtocolId = assignment.ProtocolId;
-            newAssignment.Responsibles.Clear();
+            newAssignment.UserAccounts.Clear();
 
             if (selectedResponsibles != null)
             {
-                foreach (var r in db.Responsibles.Where(re => selectedResponsibles.Contains(re.Id)))
+                foreach (var r in db.UserAccounts.Where(re => selectedResponsibles.Contains(re.UserID)))
                 {
-                    newAssignment.Responsibles.Add(r);
+                    newAssignment.UserAccounts.Add(r);
                 }
             }
 
@@ -153,28 +149,28 @@ namespace App.Controllers
         public ActionResult CreateProtocol()
 
         {
-                ViewBag.Responsibles = db.Responsibles.ToList();
-                SelectList organizations = new SelectList(db.Organizations, "Id", "Title");
-                ViewBag.Organizations = organizations;        
-                return View();
+            ViewBag.Users = db.UserAccounts.ToList();
+            SelectList organizations = new SelectList(db.Organizations, "Id", "Title");
+            ViewBag.Organizations = organizations;
+            return View();
         }
-        
+
         [HttpPost]
-        
+
         public ActionResult CreateProtocol(Protocol protocol, int[] selectedResponsibles)
         {
-                if (selectedResponsibles != null)
+            if (selectedResponsibles != null)
+            {
+                foreach (var r in db.UserAccounts.Where(re => selectedResponsibles.Contains(re.UserID)))
                 {
-                    foreach (var r in db.Responsibles.Where(re => selectedResponsibles.Contains(re.Id)))
-                    {
-                    protocol.Responsibles.Add(r);
-                    }
-
+                    protocol.UserAccounts.Add(r);
                 }
-                db.Protocols.Add(protocol);
-                db.SaveChanges();
-                return RedirectToAction("ProtocolsList");
-       
+
+            }
+            db.Protocols.Add(protocol);
+            db.SaveChanges();
+            return RedirectToAction("ProtocolsList");
+
 
         }
 
@@ -183,7 +179,7 @@ namespace App.Controllers
 
         public ActionResult EditProtocol(int? id)
         {
-                if (id == null)
+            if (id == null)
             {
                 return HttpNotFound();
             }
@@ -192,29 +188,29 @@ namespace App.Controllers
             if (protocol != null)
             {
                 SelectList organizations = new SelectList(db.Organizations, "Id", "Title");
-                
+
                 ViewBag.Organizations = organizations;
-                ViewBag.Responsibles = db.Responsibles.ToList();
+                ViewBag.Users = db.UserAccounts.ToList();
                 return View(protocol);
             }
             return RedirectToAction("AssignmentsList");
         }
 
         [HttpPost]
-        
+
         public ActionResult EditProtocol(Protocol protocol, int[] selectedResponsibles)
         {
             Protocol newProtocol = db.Protocols.Find(protocol.Id);
             newProtocol.Title = protocol.Title;
             newProtocol.DateOfSubmission = protocol.DateOfSubmission;
             newProtocol.ProtID = protocol.ProtID;
-            newProtocol.Responsibles.Clear();
+            newProtocol.UserAccounts.Clear();
 
             if (selectedResponsibles != null)
             {
-                foreach (var r in db.Responsibles.Where(re => selectedResponsibles.Contains(re.Id)))
+                foreach (var r in db.UserAccounts.Where(re => selectedResponsibles.Contains(re.UserID)))
                 {
-                    newProtocol.Responsibles.Add(r);
+                    newProtocol.UserAccounts.Add(r);
                 }
             }
 
@@ -244,9 +240,7 @@ namespace App.Controllers
         [Authorize(Roles = "admin")]
         public ActionResult DetailsProtocol(int? id)
         {
-            if (Session["UserID"] != null)
-            {
-             if (id == null)
+            if (id == null)
             {
                 return HttpNotFound();
             }
@@ -254,17 +248,34 @@ namespace App.Controllers
             Protocol protocol = db.Protocols.Find(id);
             if (protocol != null)
             {
-                ViewBag.necessaryProtocol = protocol.ProtID;
+                ViewBag.necessaryProtocol = protocol.Title;
+                ViewBag.protocolid = protocol.ProtID;
+                ViewBag.Users = protocol.UserAccounts.ToList();
                 var assignments = db.Assignments.Include(p => p.Protocol);
                 return View(assignments.ToList());
             }
             return RedirectToAction("ProtocolsList");
-            }
-            else
+     
+        
+        }
+
+        [Authorize(Roles = "admin")]
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
             {
-                return RedirectToAction("Login", "Account");
+                return HttpNotFound();
             }
-               
+
+            Assignment assignment = db.Assignments.Find(id);
+            if (assignment != null)
+            {
+                ViewBag.Users = assignment.UserAccounts;
+                return View(assignment);
+            }
+            return RedirectToAction("ProtocolsList");
+
+
         }
 
         [Authorize(Roles = "admin")]

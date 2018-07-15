@@ -7,11 +7,13 @@ using App.Models;
 using System.Data.Entity;
 using System.Web.Security;
 using App.Controllers;
+using Microsoft.AspNet.Identity;
 
 namespace App.Controllers
 {
     public class AccountController : Controller
     {
+        public static int CurrentUserID;
         // GET: Account
         [Authorize]
         public ActionResult Index()
@@ -73,7 +75,7 @@ namespace App.Controllers
         }
 
         [HttpGet]
-        public ActionResult Login ()
+        public ActionResult Login()
         {
             return View();
         }
@@ -90,6 +92,7 @@ namespace App.Controllers
                     if (usr != null)
                     {
                         Session["UserID"] = usr.UserID.ToString();
+                        CurrentUserID = usr.UserID;
                         Session["Username"] = usr.Username.ToString();
                         FormsAuthentication.SetAuthCookie(usr.Username, true);
                         return RedirectToAction("LoggedIn");
@@ -105,49 +108,61 @@ namespace App.Controllers
 
         }
 
+        [HttpGet]
+        [Authorize]
+        public ActionResult EditInfo(int id)
+        {
+            AppContext db = new AppContext();
+            UserAccount user = db.UserAccounts.Find(id);
+            if (user != null)
+            {
+                return View(user);
+            }
+            return RedirectToAction("LoggedIn");
+        }
+
+        [HttpPost]
+
+        public ActionResult EditInfo(UserAccount user)
+        {
+            AppContext db = new AppContext();
+            db.Entry(user).State = EntityState.Modified;
+
+            db.SaveChanges();
+            return RedirectToAction("LoggedIn");
+        }
+
         [Authorize]
         public ActionResult LoggedIn()
         {
-            if (Session["UserID"] != null)
-            {
-                AppContext db = new AppContext();
+            AppContext db = new AppContext();
+            UserAccount user = db.UserAccounts.Find(CurrentUserID);
                 var protocols = db.Protocols.Include(p => p.Organization);
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Login");
-            }
+                return View(user);
+            
         }
 
         [Authorize]
         public ActionResult userAssignments()
-        { 
-            if (Session["UserID"] != null)
-            {
-                AppContext db = new AppContext();
-                var assignments = db.Assignments.Include(p => p.Protocol);
-                return View(assignments.ToList());
-            }
-            else
-            {
-                return RedirectToAction("Login");
-            }
+        {
+            AppContext db = new AppContext();
+            UserAccount user = db.UserAccounts.Find(CurrentUserID);
+            ViewBag.usr = user;
+            var assignments = db.Assignments.Include(p=>p.Protocol);
+          
+
+            return View(assignments.ToList());
+
         }
 
         [Authorize]
         public ActionResult userProtocols()
         {
-            if (Session["UserID"] != null)
-            {
-                AppContext db = new AppContext();
-                var protocols = db.Protocols.Include(p => p.Organization);
-                return View(protocols.ToList());
-            }
-            else
-            {
-                return RedirectToAction("Login");
-            }
+            AppContext db = new AppContext();
+            UserAccount user = db.UserAccounts.Find(CurrentUserID);
+            ViewBag.usr = user;
+            var protocols = db.Protocols.Include(p => p.Organization);
+            return View(protocols.ToList());
         }
 
     }

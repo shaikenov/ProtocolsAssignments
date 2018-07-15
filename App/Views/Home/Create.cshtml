@@ -15,10 +15,10 @@
 
     <p>
         Responsible <br />
-        @foreach (var r in ViewBag.Responsibles)
+        @foreach (var r in ViewBag.Users)
         {
-            <input type="checkbox" name="selectedResponsibles" value="@r.Id"/>@r.Name <br />
-            }
+            <input type="checkbox" name="selectedResponsibles" value="@r.UserID" />@r.FirstName @r.LastName <br />
+        }
     </p>
 
     <p>
